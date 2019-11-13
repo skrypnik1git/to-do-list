@@ -3,8 +3,12 @@ const mainTextArea = document.getElementsByName('task')[0]
 const taskContainer = document.querySelector('.tasks')
 const header = document.querySelector('.header')
 
+const undoneTasks =  document.createElement('div')
+taskContainer.prepend(undoneTasks)
+
 mainTextArea.addEventListener('keypress', keyEnter)
 mainTextArea.addEventListener('keydown', keyEsc)
+mainTextArea.addEventListener('input', changeHeight)
 
 window.onload = () => {
     const dateDiv = document.createElement('div')
@@ -23,7 +27,6 @@ window.onload = () => {
     const count = document.createElement('div')
     count.classList.add('mrn-15-30')
     count.classList.add('counter')
-    count.style.textAlign = "center"
     count.textContent = `${counterOftasks()}`
 
     const clearAllBtn = document.createElement('input')
@@ -56,8 +59,18 @@ submitBtn.addEventListener('click', addTask)
 
 function clearAllTasks () {
     Array.from(taskContainer.children).forEach(item => {
-        item.remove()
+        Array.from(item.children).forEach(task => {
+            task.remove()
+        })
     })
+    let doneTasks = document.getElementsByName('done-tasks')[0]
+    if (!doneTasks) {
+        return
+    } else if (!Array.from(doneTasks.children).length) {
+        doneTasks.remove()
+    }
+    let count = document.querySelector('.counter')
+    count.textContent = `${counterOftasks()}`
 }
 
 function addTask() {
@@ -95,16 +108,19 @@ function addTask() {
                     task.remove()
                     doneTasks.prepend(task)
                 }
+                let count = document.querySelector('.counter')
+                count.textContent = `${counterOftasks()}`
             } else {
                 p.classList.remove('checked-p')
                 taskCheckBox.classList.remove('input-checked')
                 let task = event.target.parentNode
                 task.remove()
-                let containerOfAllTasks = document.querySelector('.tasks')
-                containerOfAllTasks.prepend(task)
+                undoneTasks.prepend(task)
                 let taskTime = document.getElementsByName('time-of-task')[0]
                 taskTime.textContent = `${getHours()}:${getMinutes()}`
                 let doneTasks = document.getElementsByName('done-tasks')[0]
+                let count = document.querySelector('.counter')
+                count.textContent = `${counterOftasks()}`
                 if (!doneTasks) {
                     return
                 } else if (!Array.from(doneTasks.children).length) {
@@ -124,11 +140,56 @@ function addTask() {
     iconToClose.className = 'closing-icon'
     iconToClose.onclick = (e) => {
         let task = e.target.parentNode
-        task.remove()
-        let count = document.querySelector('.counter')
-        count.textContent = `${counterOftasks()}`
+        
+        let coverDiv = document.createElement('div');
+        coverDiv.className = 'cover-div'
+
+        let confirmation = document.createElement('div');
+        confirmation.className = 'confirmation'
+
+        let buttons = document.createElement('div');
+        buttons.className = 'cover-btns'
+
+        let textOfConfirm = document.createElement('p');
+        textOfConfirm.textContent = 'Delete this Task?'
+        textOfConfirm.className = 'text-for-cover'
+
+        let confirmBtn = document.createElement('input');
+        confirmBtn.setAttribute('type', 'button')
+        confirmBtn.setAttribute('value', 'Ok')
+        confirmBtn.classList.add('btn')
+        confirmBtn.classList.add('blue-btn')
+        confirmBtn.onclick = () => {
+                task.remove()
+                let count = document.querySelector('.counter')
+                count.textContent = `${counterOftasks()}`
+                let doneTasks = document.getElementsByName('done-tasks')[0]
+                if (!doneTasks) {
+                    return
+                } else if (!Array.from(doneTasks.children).length) {
+                    doneTasks.remove()
+                }
+            }
+        
+        let cancelBtn = document.createElement('input');
+        cancelBtn.setAttribute('type', 'button')
+        cancelBtn.setAttribute('value', 'Cancel')
+        cancelBtn.classList.add('btn')
+        cancelBtn.classList.add('blue-red')
+        cancelBtn.onclick = () => {
+            confirmation.remove()
+            coverDiv.remove()
+        }
+
+
+        buttons.prepend(cancelBtn)
+        buttons.prepend(confirmBtn)
+        confirmation.prepend(buttons)
+        confirmation.prepend(textOfConfirm)
+        fullDataOfTask.append(coverDiv)
+        fullDataOfTask.append(confirmation)
     }
-    
+
 
     fullDataOfTask.append(taskCheckBox)
     fullDataOfTask.append(taskText)
@@ -136,7 +197,7 @@ function addTask() {
     fullDataOfTask.append(iconToClose)
     mainTextArea.value = ""
     mainTextArea.placeholder = "Put your task here"
-    taskContainer.prepend(fullDataOfTask)
+    undoneTasks.prepend(fullDataOfTask)
 }
 
 function getMinutes() {
@@ -189,10 +250,10 @@ function getDate() {
 }    
 
 function counterOftasks() {
-    if (taskContainer.children.length <= 1) {
-        return `${taskContainer.children.length} task`
+    if (undoneTasks.children.length <= 1) {
+        return `${undoneTasks.children.length} task`
     } else {
-        return `${taskContainer.children.length} tasks`
+        return `${undoneTasks.children.length} tasks`
     }
 }
 
@@ -200,11 +261,26 @@ function keyEnter(e){
     if(e.keyCode === 13){
         e.preventDefault();
         addTask()
+        changeHeight(e)
+        let count = document.querySelector('.counter')
+        count.textContent = `${counterOftasks()}`
     }
 }
 
 function keyEsc(e){
     if (e.keyCode == 27) {
         mainTextArea.value = ""
+    }
+}
+
+function changeHeight(e) {
+    if (e.target.value.length < 28 || e.target.value == "") {
+        e.target.rows = "1"
+    }
+    if (e.target.value.length > 28) {
+         e.target.rows = "2"
+    }
+    if (e.target.value.length > 56) {
+        e.target.rows = "3"
     }
 }

@@ -55,12 +55,20 @@ textarea {
 .done-tasks {
   border-top: solid 3px green;
   width: 100%;
+  margin-top: 45px;
+  position: relative;
+}
+
+.done-tasks::before {
+  content: "Done Tasks";
+  position: absolute;
+  top: -30px;
+  left: 209px;
 }
 
 .header {
   width: 100%;
   min-height: 100px;
-  background: #6faed7;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -89,10 +97,6 @@ textarea {
   margin: 15px 30px;
 }
 
-.mrn-0-30 {
-  margin: 0 30px
-}
-
 .btn {
   display: inline-block;
   width: 15em;
@@ -112,58 +116,58 @@ textarea {
 }
 
 .btn:first-line{
-font-size: 170%;
-font-weight: 700;
+  font-size: 170%;
+  font-weight: 700;
 }
 
 .blue-btn {
-text-shadow: #2e7ebd 0 1px 2px;
-border-color: #60a3d8 #2970a9 #2970a9 #60a3d8;
-background: #60a3d8 linear-gradient(#89bbe2, #60a3d8 50%, #378bce);
-margin-right: 30px;
+  text-shadow: #2e7ebd 0 1px 2px;
+  border-color: #60a3d8 #2970a9 #2970a9 #60a3d8;
+  background: #60a3d8 linear-gradient(#89bbe2, #60a3d8 50%, #378bce);
+  margin-right: 30px;
 }
 
 .blue-btn:hover {
-color: rgb(255,255,255);
-background-image: linear-gradient(#9dc7e7, #74afdd 50%, #378bce);
+  color: rgb(255,255,255);
+  background-image: linear-gradient(#9dc7e7, #74afdd 50%, #378bce);
 }
 
 .blue-btn:active {
-color: rgb(255,255,255);
-border-color: #2970a9;
-background-image: linear-gradient(#5796c8, #6aa2ce);
-box-shadow: none;
+  color: rgb(255,255,255);
+  border-color: #2970a9;
+  background-image: linear-gradient(#5796c8, #6aa2ce);
+  box-shadow: none;
 }
 
 .blue-red {
-text-shadow: #bd2e2e 0 1px 2px;
-border-color: #d86060 #a92d29 #a92929 #d86060;
-background: #60a3d8 linear-gradient(#e28989, #d86060 50%, #ce3737);
+  text-shadow: #bd2e2e 0 1px 2px;
+  border-color: #d86060 #a92d29 #a92929 #d86060;
+  background: #60a3d8 linear-gradient(#e28989, #d86060 50%, #ce3737);
 }
 
 .blue-red:hover {
-color: rgb(255,255,255);
-background-image: linear-gradient(#e79d9d, #dd7474 50%, #ce3737);
+  color: rgb(255,255,255);
+  background-image: linear-gradient(#e79d9d, #dd7474 50%, #ce3737);
 }
 
 .blue-red:active {
-color: rgb(255,255,255);
-border-color: #a92929;
-background-image: linear-gradient(#c85757, #ce6a6a);
-box-shadow: none;
+  color: rgb(255,255,255);
+  border-color: #a92929;
+  background-image: linear-gradient(#c85757, #ce6a6a);
+  box-shadow: none;
 }
 
 .tasks::-webkit-scrollbar {
-width: 1em;
+  width: 1em;
 }
 .tasks::-webkit-scrollbar-track {
-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-border-bottom-right-radius: 15px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-bottom-right-radius: 15px;
 }
 .tasks::-webkit-scrollbar-thumb {
-background-color: #6faed7;
-outline: 1px solid #60a3d8;
-border-radius: 15px;
+  background-color: #6faed7;
+  outline: 1px solid #60a3d8;
+  border-radius: 15px;
 }
 
 .task {
@@ -235,8 +239,50 @@ border-radius: 15px;
   font-weight: 600;
   font-size: 30px;
   color: white;
+  text-align: center;
 }
 
-.width-50per {
+.text-area {
   width: 53%;
+  margin: 0 30px;
+}
+
+.cover-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 8000;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.7;
+}
+
+.confirmation {
+  width: 350px;
+  height: 215px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 9000;
+  background: lightsteelblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transform: translate(-50%, -50%)
+}
+
+.text-for-cover {
+  color: white;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.cover-btns {
+  margin-top: 25px;
+  width: 240px;
+  display: flex;
+  justify-content: space-around;
 }
